@@ -38,16 +38,16 @@ class XlsxParser(object):
 
         """
 
-        keys = [val for val in sheet.row_values(self.conf["key_row_index"])]
-        types = [val for val in sheet.row_values(self.conf["type_row_index"])]
-        briefs = [val for val in sheet.row_values(self.conf["brief_row_index"])]
+        keys = sheet.row_values(self.conf["key_row_index"])
+        types = sheet.row_values(self.conf["type_row_index"])
+        briefs = sheet.row_values(self.conf["brief_row_index"])
 
         if len(keys) != len(types):
             print("Error: Key count doesn't equal to type count!")
             return None
 
         # Validate key types
-        for i in range(len(keys)):
+        for i in range(0, len(keys)):
             if types[i] not in VALID_KEY_TYPES:
                 print("Error: Unknown key type: %s, must be one of: %s" % (types[i], VALID_KEY_TYPES))
                 return None
@@ -145,7 +145,7 @@ class XlsxParser(object):
 
             if not ret.__contains__(key_values_hash):
                 ret[key_values_hash] = []
-            ret[key_values_hash].append(item_idx + 1)
+            ret[key_values_hash].append(item_idx)
 
         return ret
 

@@ -39,9 +39,9 @@ class LuaDumper(Dumper):
         indexes_content = ""
         for item in indexes:
             indexes_content = indexes_content + "\t[\'%s\'] = {\n" % item
-            sorted_indexes = sorted(item, key=lambda x: x[0])
+            sorted_indexes = sorted(indexes[item], key=lambda x: x[0])
             for idx in sorted_indexes:
-                value_indexes = ['%r' % val for val in item[idx]]
+                value_indexes = ['%r' % (val + 1) for val in indexes[item][idx]]
                 indexes_content = indexes_content + "\t\t[\'%s\'] = {%s},\n" % (idx, ','.join(value_indexes))
             indexes_content = indexes_content + "\t},\n"
 
@@ -61,6 +61,10 @@ class LuaDumper(Dumper):
                 table = table + ('%r' % ele).rstrip('0').rstrip('.') + ','
             elif type(ele) is str:
                 table = table + ('\'%s\'' % ele.replace('"', '\\"').replace('\'', '\\\'')) + ','
+            elif type(ele) is int:
+                table = table + ('%r' % ele) + ','
+            else:
+                print("Error: Unhandled value type: " + type(ele))
         table = table + "}"
         return table
 
@@ -69,7 +73,7 @@ class LuaDumper(Dumper):
         if data is None:
             return False
 
-        os.makedirs(os.path.dirname(os.path.abspath(filepath)))
+        os.makedirs(os.path.dirname(os.path.abspath(filepath)), exist_ok=True)
         with open(filepath, 'w') as ofp:
             ofp.write(data)
 

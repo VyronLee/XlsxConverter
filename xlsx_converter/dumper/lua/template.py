@@ -26,10 +26,12 @@ local mt = {
 }
 local __mt = setmetatable
 
-local conf = {
-%s}
+local conf = {}
 
 conf.data = {
+%s}
+
+conf.indexes = {
 %s}
 
 conf.parseArgs = function(self, ...)
@@ -49,11 +51,11 @@ conf.getData = function(self, ...)
 \tlocal keys, values = self:parseArgs(...)
 \tlocal keyHash = table.concat(keys, '-')
 \tlocal valueHash = table.concat(values, '-')
-\tlocal keyMap = self.data[keyHash] or {}
+\tlocal keyMap = self.indexes[keyHash] or {}
 \tlocal valueMap = keyMap[valueHash] or {}
 \tlocal ret  = {}
 \tfor idx,val in ipairs(valueMap) do
-\t\tret[#ret + 1] = self[val]
+\t\tret[#ret + 1] = self.data[val]
 \tend
 \treturn ret
 end

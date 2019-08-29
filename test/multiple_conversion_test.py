@@ -19,7 +19,7 @@ FILE_2_CONVERT = [
 ]
 
 
-def run_test():
+def run_test(out_format):
     conf = {
         "header_row_count": 4,
         "key_row_index": 0,
@@ -31,9 +31,9 @@ def run_test():
 
     for item in FILE_2_CONVERT:
         ip = "./input/%s.xlsx" % item["basename"]
-        op = "./output/%s.lua" % item["basename"]
+        op = "./output/%s.%s" % (item["basename"], out_format)
 
-        result = xlsx_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=item["indexers"], out_format="lua")
+        result = xlsx_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=item["indexers"], out_format=out_format)
         if not result:
             print("Error: Convert failed!")
             return result
@@ -42,6 +42,8 @@ def run_test():
 
 
 if __name__ == '__main__':
-    ret = run_test()
+    ret = True
+    ret = ret and run_test("lua")
+    ret = ret and run_test("json")
     print("Run test finished, exit code: %s" % ret)
     sys.exit(ret)

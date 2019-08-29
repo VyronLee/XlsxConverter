@@ -82,4 +82,4 @@ class XlsxConverter(object):
         elif out_format == "json":
             from .dumper.json.json_dumper import JsonDumper
             dumper = JsonDumper()
-        return dumper.dump(op, keys, contents, indexers)
+        return dumper.dump(op, keys, contents, indexes)
