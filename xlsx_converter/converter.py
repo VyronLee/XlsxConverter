@@ -30,21 +30,25 @@ class XlsxConverter(object):
         """
         self.conf = conf
 
-    def convert(self, ip, op, sheet_name, filter_re, indexers, out_format):
+    def convert(self, out_format, filepath, output_dir, sheet_name, filter_re, indexers, options=None):
         """convert xls file "ip" to specified format, store in path "op"
 
-        :ip: input file path
-        :op: output file path
+        :out_format: format to convert
+        :filepath_to_convert: input file path
+        :output_dir: output directory
         :sheet_name: name of sheet to read
         :filter_re: filter regex
         :indexer: indexer array
+        :options: additional options
         :returns: True if succeed, otherwise False
 
         """
+        if options is None:
+            options = {}
         try:
-            book = xlrd.open_workbook(filename=ip)
+            book = xlrd.open_workbook(filename=filepath)
         except Exception:
-            print("Error: Open workbook failed, filename: %s" % ip)
+            print("Error: Open workbook failed, filename: %s" % filepath)
             return False
 
         sheet = book.sheet_by_name(sheet_name)
@@ -54,7 +58,7 @@ class XlsxConverter(object):
 
         if sheet.nrows < self.conf["header_row_count"]:
             print("Error: Invalid input file, line count less than %s: %s, sheet name: %s" % (
-                self.conf["header_row_count"], ip, sheet_name))
+                self.conf["header_row_count"], filepath, sheet_name))
             return False
 
         parser = XlsxParser(self.conf)
@@ -82,4 +86,7 @@ class XlsxConverter(object):
         elif out_format == "json":
             from .dumper.json.json_dumper import JsonDumper
             dumper = JsonDumper()
-        return dumper.dump(op, keys, contents, indexes)
+        elif out_format == "pb":
+            from .dumper.protobuf.protobuf_dumper import ProtoBufDumper
+            dumper = ProtoBufDumper()
+        return dumper.dump(filepath, sheet_name, output_dir, keys, contents, indexes, options)

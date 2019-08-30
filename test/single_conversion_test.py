@@ -23,7 +23,7 @@ def run_test(out_format):
         "brief_row_index": 3,
     }
     ip = "./input/ActorConf.xlsx"
-    op = "./output/ActorConf." + out_format
+    op = "./output"
     re = ".*c+"  # just filter out cols contains 'c'
     idx = [["id"]]
     return xlsx_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_format=out_format)
@@ -31,7 +31,8 @@ def run_test(out_format):
 
 if __name__ == '__main__':
     ret = True
-    ret = ret and run_test("json")
-    ret = ret and run_test("lua")
+    # ret = ret and run_test("json")
+    # ret = ret and run_test("lua")
+    ret = ret and run_test("pb")
     print("Run test finished, exit code: %s" % ret)
     sys.exit(ret)

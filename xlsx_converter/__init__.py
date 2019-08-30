@@ -6,10 +6,8 @@
 #      @brief  init file.
 #
 #     @author  VyronLee, lwz_jz@hotmail.com
-#
-#   @internal
-#    Modified  2019-08-28 23:54
-#   Copyright  Copyright (c) 2019, VyronLee
+#   @Modified  2019-08-28 23:54
+#  @Copyright  Copyright (c) 2019, VyronLee
 # ============================================================
 from .converter import XlsxConverter
 
@@ -21,6 +19,7 @@ def convert(conf=None,
             filter_re=".*",
             indexers=None,
             out_format="json",
+            options=None,
             verbose=1):
     if indexers is None:
         indexers = []
@@ -28,7 +27,14 @@ def convert(conf=None,
     if verbose >= 0:
         print("Converting file: %s, using sheet: %s, output: %s" % (ip, sheet_name, op))
 
-    ret = XlsxConverter(conf).convert(ip, op, sheet_name, filter_re, indexers, out_format)
+    ret = XlsxConverter(conf).convert(
+        filepath=ip,
+        output_dir=op,
+        sheet_name=sheet_name,
+        filter_re=filter_re,
+        indexers=indexers,
+        options=options,
+        out_format=out_format)
 
     if verbose >= 0:
         if ret:

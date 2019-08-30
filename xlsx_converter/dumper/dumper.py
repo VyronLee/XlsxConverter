@@ -13,10 +13,13 @@
 
 class Dumper(object):
 
-    def dump(self, filepath, keys, contents, indexes):
+    def dump(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
         """
 
-        :param filepath: File path to save as.
+        :param file_path: xlsx file name.
+        :param sheet_name: xlsx sheet name.
+        :param options: options
+        :param output_dir: output directory.
         :param keys: Key values
         :param contents: Content values
         :param indexes: Index values

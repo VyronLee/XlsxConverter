@@ -1,0 +1,17 @@
+// [START declaration]
+syntax = "proto3";
+package XlsxConvert;
+// [END declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "XlsxConvert.Auto.__XLSX_FILENAME__";
+// [END csharp_declaration]
+
+// [START messages]
+message __XLSX_SHEETNAME__Record {__MESSAGE_BODY__
+}
+
+message __XLSX_SHEETNAME__Sheet {
+    repeated __XLSX_SHEETNAME__Record data = 1;
+}
+// [END messages]

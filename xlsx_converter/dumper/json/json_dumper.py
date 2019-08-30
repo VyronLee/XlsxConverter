@@ -17,14 +17,17 @@ from ..dumper import Dumper
 
 class JsonDumper(Dumper):
 
-    def dump(self, filepath, keys, contents, indexes):
+    def dump(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
 
         data = self.compose(keys, contents, indexes)
         if data is None:
             return False
 
-        os.makedirs(os.path.dirname(os.path.abspath(filepath)), exist_ok=True)
-        with open(filepath, 'w') as ofp:
+        abs_path = os.path.abspath(output_dir)
+        dir_name = os.path.dirname(abs_path)
+        base_name = os.path.basename(output_dir)
+        os.makedirs(dir_name, exist_ok=True)
+        with open("%s/%s_%s.json" % (dir_name, base_name, sheet_name), 'w') as ofp:
             json.dump(data, ofp, ensure_ascii=False, indent=4)
 
         return True

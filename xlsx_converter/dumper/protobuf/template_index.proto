@@ -1,0 +1,22 @@
+// [START declaration]
+syntax = "proto3";
+package XlsxConvert;
+// [END declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "XlsxConvert.Auto.Indexers";
+// [END csharp_declaration]
+
+// [START messages]
+message XlsxRecordIds {
+    repeated int32 values = 1;
+}
+
+message XlsxRecordGroupIndexDict {
+    map<string, XlsxRecordIds> values = 1;
+}
+
+message XlsxRecordIndexesDict {
+    map<string, XlsxRecordGroupIndexDict> values = 1;
+}
+// [END messages]

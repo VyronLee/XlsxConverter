@@ -31,7 +31,7 @@ def run_test(out_format):
 
     for item in FILE_2_CONVERT:
         ip = "./input/%s.xlsx" % item["basename"]
-        op = "./output/%s.%s" % (item["basename"], out_format)
+        op = "./output"
 
         result = xlsx_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=item["indexers"], out_format=out_format)
         if not result:
