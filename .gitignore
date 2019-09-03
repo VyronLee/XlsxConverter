@@ -40,3 +40,5 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 .idea
+temp_proto
+temp_py_proto

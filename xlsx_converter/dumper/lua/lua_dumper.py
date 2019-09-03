@@ -73,11 +73,9 @@ class LuaDumper(Dumper):
         if data is None:
             return False
 
-        abs_path = os.path.abspath(output_dir)
-        dir_name = os.path.dirname(abs_path)
-        base_name = os.path.basename(output_dir)
-        os.makedirs(dir_name, exist_ok=True)
-        with open("%s/%s_%s.lua" % (dir_name, base_name, sheet_name), 'w') as ofp:
+        filename = os.path.splitext(os.path.basename(file_path))[0]
+        os.makedirs(output_dir, exist_ok=True)
+        with open("%s/%s_%s.lua" % (output_dir, filename, sheet_name), 'w') as ofp:
             ofp.write(data)
 
         return True

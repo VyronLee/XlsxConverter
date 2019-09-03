@@ -14,8 +14,8 @@ import sys
 import xlsx_converter
 
 FILE_2_CONVERT = [
-    {"basename": "ActorConf", "indexers": [["id"]]},
-    {"basename": "EquipmentConf", "indexers": [["id"], ["quality"], ["id", "quality"]]},
+    {"basename": "ActorConf", "sheet_name": "Properties", "indexers": [["id"]]},
+    {"basename": "EquipmentConf", "sheet_name": "Properties", "indexers": [["id"], ["quality"], ["id", "quality"]]},
 ]
 
 
@@ -29,11 +29,25 @@ def run_test(out_format):
     }
     re = ".*s+"  # just filter out cols contains 's'
 
+    options = {
+        "generate_codes": True,
+        "codes_type": "csharp",
+    }
+
     for item in FILE_2_CONVERT:
         ip = "./input/%s.xlsx" % item["basename"]
         op = "./output"
 
-        result = xlsx_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=item["indexers"], out_format=out_format)
+        result = xlsx_converter.convert(
+            conf=conf,
+            ip=ip,
+            op=op,
+            filter_re=re,
+            sheet_name=item["sheet_name"],
+            indexers=item["indexers"],
+            out_format=out_format,
+            options=options,
+        )
         if not result:
             print("Error: Convert failed!")
             return result
@@ -43,7 +57,8 @@ def run_test(out_format):
 
 if __name__ == '__main__':
     ret = True
-    ret = ret and run_test("lua")
-    ret = ret and run_test("json")
+    #ret = ret and run_test("lua")
+    #ret = ret and run_test("json")
+    ret = ret and run_test("pb")
     print("Run test finished, exit code: %s" % ret)
     sys.exit(ret)

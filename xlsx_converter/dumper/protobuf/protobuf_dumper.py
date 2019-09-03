@@ -12,7 +12,7 @@
 import shutil
 import os
 import sys
-import importlib.util
+import importlib
 
 from google.protobuf import json_format
 
@@ -21,8 +21,9 @@ from ..dumper import Dumper
 TEMP_PROTO_DIR = "./temp_proto"
 TEMP_PYTHON_PROTO_DIR = "./temp_py_proto"
 
-TEMP_DATA_PROTO_NAME = "data.proto"
-TEMP_INDEX_PROTO_NAME = "index.proto"
+sys.path.append(TEMP_PYTHON_PROTO_DIR)
+
+INDEX_PROTO_NAME = "XlsxRecordIndex.proto"
 
 PY_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 TEMPLATE_DATA_PROTO_PATH = PY_FILE_DIR + "/template_data.proto"
@@ -36,35 +37,112 @@ PB_VALUE_TYPE_MAP = {
     "string": "string",
 }
 
+OPTIONS_CODE_TYPE_TO_ARGS = {
+    "cpp": "cpp_out",
+    "csharp": "csharp_out",
+    "java": "java_out",
+    "js": "js_out",
+    "objc": "objc_out",
+    "php": "php_out",
+    "python": "python_out",
+    "ruby": "ruby_out",
+}
+
+
+def import_or_reload(module_name, *names):
+    import sys
+
+    if module_name in sys.modules:
+        return importlib.reload(sys.modules[module_name])
+    else:
+        return __import__(module_name, fromlist=names)
+
+
+def get_class_by_name(name, module):
+    if module:
+        return getattr(module, name)
+    else:
+        return getattr(sys.modules[__name__], name)
+
 
 class ProtoBufDumper(Dumper):
 
     def dump(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
+        # shutil.rmtree(TEMP_PROTO_DIR, ignore_errors=True)
+        # shutil.rmtree(TEMP_PYTHON_PROTO_DIR, ignore_errors=True)
+
+        ret = self.generate_binary_data(file_path, sheet_name, output_dir, keys, contents, indexes, options)
+        if not ret:
+            return False
+
+        if options is None:
+            return True
+
+        if "generate_codes" in options and options["generate_codes"]:
+            ret = self.generate_source_codes(file_path, sheet_name, output_dir, keys, contents, indexes, options)
+            if not ret:
+                return False
+
+        return True
+
+    def generate_binary_data(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
+        filename = os.path.splitext(os.path.basename(file_path))[0]
+
         # prepare for generating binary data
         temp_data_proto_path, temp_index_proto_path = self.generate_proto(
-            "",
-            "",
+            filename,
+            sheet_name,
             TEMP_PROTO_DIR,
-            TEMP_DATA_PROTO_NAME,
-            TEMP_INDEX_PROTO_NAME,
+            "%s_%s.proto" % (filename, sheet_name),
+            INDEX_PROTO_NAME,
             keys
         )
 
         # generate data binary
-        ret = self.generate_codes(temp_data_proto_path, TEMP_PYTHON_PROTO_DIR)
+        ret = self.generate_codes(temp_data_proto_path, TEMP_PYTHON_PROTO_DIR, "python_out")
         if not ret:
             return False
 
-        ret = self.save_data_binary(output_dir, file_path, sheet_name, keys, contents)
+        ret = self.save_data_binary(output_dir, filename, sheet_name, keys, contents)
         if not ret:
             return False
 
         # generate index binary
-        ret = self.generate_codes(temp_index_proto_path, TEMP_PYTHON_PROTO_DIR)
+        ret = self.generate_codes(temp_index_proto_path, TEMP_PYTHON_PROTO_DIR, "python_out")
         if not ret:
             return False
 
-        ret = self.save_index_binary(output_dir, file_path, sheet_name, indexes)
+        ret = self.save_index_binary(output_dir, filename, sheet_name, indexes)
+        if not ret:
+            return False
+
+        return True
+
+    def generate_source_codes(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
+        filename = os.path.splitext(os.path.basename(file_path))[0]
+
+        # prepare for generating binary data
+        temp_data_proto_path, temp_index_proto_path = self.generate_proto(
+            filename,
+            sheet_name,
+            TEMP_PROTO_DIR,
+            "%s_%s.proto" % (filename, sheet_name),
+            INDEX_PROTO_NAME,
+            keys
+        )
+
+        # generate data binary
+        if "codes_type" not in options:
+            raise Exception("Codes type must be specified in options")
+
+        if options["codes_type"] not in OPTIONS_CODE_TYPE_TO_ARGS:
+            raise Exception("Unsupported code type: " + options["codes_type"])
+
+        ret = self.generate_codes(temp_data_proto_path, output_dir, OPTIONS_CODE_TYPE_TO_ARGS[options["codes_type"]])
+        if not ret:
+            return False
+
+        ret = self.generate_codes(temp_index_proto_path, output_dir, OPTIONS_CODE_TYPE_TO_ARGS[options["codes_type"]])
         if not ret:
             return False
 
@@ -98,10 +176,10 @@ class ProtoBufDumper(Dumper):
         return dst_data_proto_path, dst_index_proto_path
 
     @staticmethod
-    def generate_codes(proto_path, out_dir):
+    def generate_codes(proto_path, out_dir, pb_out_args):
         os.makedirs(os.path.abspath(out_dir), exist_ok=True)
 
-        cmd = "%s -I%s --python_out=%s %s" % (PROTOC_EXE, TEMP_PROTO_DIR, out_dir, proto_path)
+        cmd = "%s -I%s --%s=%s %s" % (PROTOC_EXE, TEMP_PROTO_DIR, pb_out_args, out_dir, proto_path)
 
         try:
             os.system(cmd)
@@ -111,27 +189,28 @@ class ProtoBufDumper(Dumper):
 
         return True
 
-    def save_data_binary(self, output_dir, file_path, sheet_name, keys, contents):
-        pb_module = self.load_module("%s/data_pb2.py" % TEMP_PYTHON_PROTO_DIR)
+    @staticmethod
+    def save_data_binary(output_dir, file_name, sheet_name, keys, contents):
+        pb_module = import_or_reload("%s_%s_pb2" % (file_name, sheet_name))
 
         data = [{keys[i][0]: content[i] for i in range(0, len(content))} for content in contents]
-        sheet = pb_module.Sheet()
+        sheet = get_class_by_name("%s_%s_Sheet" % (file_name, sheet_name), pb_module)()
         for val in data:
-            record = pb_module.Record()
+            record = get_class_by_name("%s_%s_Record" % (file_name, sheet_name), pb_module)()
             json_format.ParseDict(val, record)
             sheet.data.append(record)
         serialized_data = sheet.SerializeToString()
 
         os.makedirs(output_dir, exist_ok=True)
-        file_name = os.path.splitext(os.path.basename(file_path))[0]
         output_file_path = "%s/%s_%s.dat.pb" % (output_dir, file_name, sheet_name)
         with open(output_file_path, "wb") as of:
             of.write(serialized_data)
 
         return True
 
-    def save_index_binary(self, output_dir, file_path, sheet_name, indexes):
-        pb_module = self.load_module("%s/index_pb2.py" % TEMP_PYTHON_PROTO_DIR)
+    @staticmethod
+    def save_index_binary(output_dir, file_name, sheet_name, indexes):
+        pb_module = import_or_reload("%s_pb2" % os.path.splitext(INDEX_PROTO_NAME)[0])
 
         indexes_dict = pb_module.XlsxRecordIndexesDict()
         for k1 in indexes:
@@ -143,16 +222,8 @@ class ProtoBufDumper(Dumper):
         serialized_data = indexes_dict.SerializeToString()
 
         os.makedirs(output_dir, exist_ok=True)
-        file_name = os.path.splitext(os.path.basename(file_path))[0]
         output_file_path = "%s/%s_%s.idx.pb" % (output_dir, file_name, sheet_name)
         with open(output_file_path, "wb") as of:
             of.write(serialized_data)
 
         return True
-
-    @staticmethod
-    def load_module(py_path, module_name="None"):
-        spec = importlib.util.spec_from_file_location(module_name, py_path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        return module

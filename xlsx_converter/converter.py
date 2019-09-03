@@ -34,7 +34,7 @@ class XlsxConverter(object):
         """convert xls file "ip" to specified format, store in path "op"
 
         :out_format: format to convert
-        :filepath_to_convert: input file path
+        :filepath: input file path
         :output_dir: output directory
         :sheet_name: name of sheet to read
         :filter_re: filter regex
