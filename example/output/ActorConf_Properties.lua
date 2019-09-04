@@ -6,11 +6,10 @@
 ------------------------------------------------------------
 local keys = {
 	['id'] = {index=1,type="int",brief="职业ID"},
-	['name'] = {index=2,type="string",brief="职业名称"},
-	['hp'] = {index=3,type="int",brief="初始HP"},
-	['mp'] = {index=4,type="int",brief="初始MP"},
-	['attack'] = {index=5,type="int",brief="初始攻击"},
-	['defend'] = {index=6,type="int",brief="初始防御"},
+	['hp'] = {index=2,type="int",brief="初始HP"},
+	['mp'] = {index=3,type="int",brief="初始MP"},
+	['attack'] = {index=4,type="int",brief="初始攻击"},
+	['defend'] = {index=5,type="int",brief="初始防御"},
 }
 
 local mt = {
@@ -23,9 +22,9 @@ local __mt = setmetatable
 local conf = {}
 
 conf.data = {
-	[1] = __mt({1,'战士',100,50,10,10,}, mt),
-	[2] = __mt({2,'法师',80,200,12,8,}, mt),
-	[3] = __mt({3,'刺客',80,100,15,5,}, mt),
+	[1] = __mt({1,100,50,10,10,}, mt),
+	[2] = __mt({2,80,200,12,8,}, mt),
+	[3] = __mt({3,80,100,15,5,}, mt),
 }
 
 conf.indexes = {

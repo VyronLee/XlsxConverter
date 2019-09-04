@@ -12,11 +12,11 @@ message XlsxRecordIds {
     repeated int32 values = 1;
 }
 
-message XlsxRecordGroupIndexDict {
+message XlsxRecordValueGroup {
     map<string, XlsxRecordIds> values = 1;
 }
 
-message XlsxRecordIndexesDict {
-    map<string, XlsxRecordGroupIndexDict> values = 1;
+message XlsxRecordIndexes {
+    map<string, XlsxRecordValueGroup> values = 1;
 }
 // [END messages]

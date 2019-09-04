@@ -25,22 +25,21 @@ namespace XlsxConvert.Auto.Indexers {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChVYbHN4UmVjb3JkSW5kZXgucHJvdG8SC1hsc3hDb252ZXJ0Ih8KDVhsc3hS",
-            "ZWNvcmRJZHMSDgoGdmFsdWVzGAEgAygFIqgBChhYbHN4UmVjb3JkR3JvdXBJ",
-            "bmRleERpY3QSQQoGdmFsdWVzGAEgAygLMjEuWGxzeENvbnZlcnQuWGxzeFJl",
-            "Y29yZEdyb3VwSW5kZXhEaWN0LlZhbHVlc0VudHJ5GkkKC1ZhbHVlc0VudHJ5",
-            "EgsKA2tleRgBIAEoCRIpCgV2YWx1ZRgCIAEoCzIaLlhsc3hDb252ZXJ0Llhs",
-            "c3hSZWNvcmRJZHM6AjgBIq0BChVYbHN4UmVjb3JkSW5kZXhlc0RpY3QSPgoG",
-            "dmFsdWVzGAEgAygLMi4uWGxzeENvbnZlcnQuWGxzeFJlY29yZEluZGV4ZXNE",
-            "aWN0LlZhbHVlc0VudHJ5GlQKC1ZhbHVlc0VudHJ5EgsKA2tleRgBIAEoCRI0",
-            "CgV2YWx1ZRgCIAEoCzIlLlhsc3hDb252ZXJ0Llhsc3hSZWNvcmRHcm91cElu",
-            "ZGV4RGljdDoCOAFCHKoCGVhsc3hDb252ZXJ0LkF1dG8uSW5kZXhlcnNiBnBy",
-            "b3RvMw=="));
+            "ZWNvcmRJZHMSDgoGdmFsdWVzGAEgAygFIqABChRYbHN4UmVjb3JkVmFsdWVH",
+            "cm91cBI9CgZ2YWx1ZXMYASADKAsyLS5YbHN4Q29udmVydC5YbHN4UmVjb3Jk",
+            "VmFsdWVHcm91cC5WYWx1ZXNFbnRyeRpJCgtWYWx1ZXNFbnRyeRILCgNrZXkY",
+            "ASABKAkSKQoFdmFsdWUYAiABKAsyGi5YbHN4Q29udmVydC5YbHN4UmVjb3Jk",
+            "SWRzOgI4ASKhAQoRWGxzeFJlY29yZEluZGV4ZXMSOgoGdmFsdWVzGAEgAygL",
+            "MiouWGxzeENvbnZlcnQuWGxzeFJlY29yZEluZGV4ZXMuVmFsdWVzRW50cnka",
+            "UAoLVmFsdWVzRW50cnkSCwoDa2V5GAEgASgJEjAKBXZhbHVlGAIgASgLMiEu",
+            "WGxzeENvbnZlcnQuWGxzeFJlY29yZFZhbHVlR3JvdXA6AjgBQhyqAhlYbHN4",
+            "Q29udmVydC5BdXRvLkluZGV4ZXJzYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::XlsxConvert.Auto.Indexers.XlsxRecordIds), global::XlsxConvert.Auto.Indexers.XlsxRecordIds.Parser, new[]{ "Values" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict), global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict.Parser, new[]{ "Values" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
-            new pbr::GeneratedClrTypeInfo(typeof(global::XlsxConvert.Auto.Indexers.XlsxRecordIndexesDict), global::XlsxConvert.Auto.Indexers.XlsxRecordIndexesDict.Parser, new[]{ "Values" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
+            new pbr::GeneratedClrTypeInfo(typeof(global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup), global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup.Parser, new[]{ "Values" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::XlsxConvert.Auto.Indexers.XlsxRecordIndexes), global::XlsxConvert.Auto.Indexers.XlsxRecordIndexes.Parser, new[]{ "Values" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
     #endregion
@@ -172,11 +171,11 @@ namespace XlsxConvert.Auto.Indexers {
 
   }
 
-  public sealed partial class XlsxRecordGroupIndexDict : pb::IMessage<XlsxRecordGroupIndexDict> {
-    private static readonly pb::MessageParser<XlsxRecordGroupIndexDict> _parser = new pb::MessageParser<XlsxRecordGroupIndexDict>(() => new XlsxRecordGroupIndexDict());
+  public sealed partial class XlsxRecordValueGroup : pb::IMessage<XlsxRecordValueGroup> {
+    private static readonly pb::MessageParser<XlsxRecordValueGroup> _parser = new pb::MessageParser<XlsxRecordValueGroup>(() => new XlsxRecordValueGroup());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<XlsxRecordGroupIndexDict> Parser { get { return _parser; } }
+    public static pb::MessageParser<XlsxRecordValueGroup> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -189,21 +188,21 @@ namespace XlsxConvert.Auto.Indexers {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordGroupIndexDict() {
+    public XlsxRecordValueGroup() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordGroupIndexDict(XlsxRecordGroupIndexDict other) : this() {
+    public XlsxRecordValueGroup(XlsxRecordValueGroup other) : this() {
       values_ = other.values_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordGroupIndexDict Clone() {
-      return new XlsxRecordGroupIndexDict(this);
+    public XlsxRecordValueGroup Clone() {
+      return new XlsxRecordValueGroup(this);
     }
 
     /// <summary>Field number for the "values" field.</summary>
@@ -218,11 +217,11 @@ namespace XlsxConvert.Auto.Indexers {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as XlsxRecordGroupIndexDict);
+      return Equals(other as XlsxRecordValueGroup);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(XlsxRecordGroupIndexDict other) {
+    public bool Equals(XlsxRecordValueGroup other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -267,7 +266,7 @@ namespace XlsxConvert.Auto.Indexers {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(XlsxRecordGroupIndexDict other) {
+    public void MergeFrom(XlsxRecordValueGroup other) {
       if (other == null) {
         return;
       }
@@ -293,11 +292,11 @@ namespace XlsxConvert.Auto.Indexers {
 
   }
 
-  public sealed partial class XlsxRecordIndexesDict : pb::IMessage<XlsxRecordIndexesDict> {
-    private static readonly pb::MessageParser<XlsxRecordIndexesDict> _parser = new pb::MessageParser<XlsxRecordIndexesDict>(() => new XlsxRecordIndexesDict());
+  public sealed partial class XlsxRecordIndexes : pb::IMessage<XlsxRecordIndexes> {
+    private static readonly pb::MessageParser<XlsxRecordIndexes> _parser = new pb::MessageParser<XlsxRecordIndexes>(() => new XlsxRecordIndexes());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<XlsxRecordIndexesDict> Parser { get { return _parser; } }
+    public static pb::MessageParser<XlsxRecordIndexes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -310,40 +309,40 @@ namespace XlsxConvert.Auto.Indexers {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordIndexesDict() {
+    public XlsxRecordIndexes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordIndexesDict(XlsxRecordIndexesDict other) : this() {
+    public XlsxRecordIndexes(XlsxRecordIndexes other) : this() {
       values_ = other.values_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public XlsxRecordIndexesDict Clone() {
-      return new XlsxRecordIndexesDict(this);
+    public XlsxRecordIndexes Clone() {
+      return new XlsxRecordIndexes(this);
     }
 
     /// <summary>Field number for the "values" field.</summary>
     public const int ValuesFieldNumber = 1;
-    private static readonly pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict>.Codec _map_values_codec
-        = new pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForMessage(18, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict.Parser), 10);
-    private readonly pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict> values_ = new pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict>();
+    private static readonly pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup>.Codec _map_values_codec
+        = new pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForMessage(18, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup.Parser), 10);
+    private readonly pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup> values_ = new pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordGroupIndexDict> Values {
+    public pbc::MapField<string, global::XlsxConvert.Auto.Indexers.XlsxRecordValueGroup> Values {
       get { return values_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as XlsxRecordIndexesDict);
+      return Equals(other as XlsxRecordIndexes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(XlsxRecordIndexesDict other) {
+    public bool Equals(XlsxRecordIndexes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -388,7 +387,7 @@ namespace XlsxConvert.Auto.Indexers {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(XlsxRecordIndexesDict other) {
+    public void MergeFrom(XlsxRecordIndexes other) {
       if (other == null) {
         return;
       }

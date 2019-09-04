@@ -212,7 +212,7 @@ class ProtoBufDumper(Dumper):
     def save_index_binary(output_dir, file_name, sheet_name, indexes):
         pb_module = import_or_reload("%s_pb2" % os.path.splitext(INDEX_PROTO_NAME)[0])
 
-        indexes_dict = pb_module.XlsxRecordIndexesDict()
+        indexes_dict = pb_module.XlsxRecordIndexes()
         for k1 in indexes:
             group_index_dict = indexes_dict.values[k1]
             for k2 in indexes[k1]:
