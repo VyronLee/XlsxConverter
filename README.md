@@ -102,86 +102,86 @@
   -- @Copyright Copyright(c) 2019, Apache-2.0
   ------------------------------------------------------------
   local keys = {
-  	['id'] = {index=1,type="int",brief="职业ID"},
-  	['hp'] = {index=2,type="int",brief="初始HP"},
-  	['mp'] = {index=3,type="int",brief="初始MP"},
-  	['attack'] = {index=4,type="int",brief="初始攻击"},
-  	['defend'] = {index=5,type="int",brief="初始防御"},
+    ['id'] = {index=1,type="int",brief="职业ID"},
+    ['hp'] = {index=2,type="int",brief="初始HP"},
+    ['mp'] = {index=3,type="int",brief="初始MP"},
+    ['attack'] = {index=4,type="int",brief="初始攻击"},
+    ['defend'] = {index=5,type="int",brief="初始防御"},
   }
   
   local mt = {
-  	__index = function(t,k)
-  		return keys[k] and t[keys[k].index]
-  	end,
-  	__tostring = function(t)
-  		local ret = {}
-  		for k in pairs(keys) do
-  			if type(t[k]) == "number" then
-  				table.insert(ret, ("%s = %s"):format(k, t[k]))
-  			elseif type(t[k]) == "string" then
-  				table.insert(ret, ("%s = '%s'"):format(k, t[k]))
-  			end
-  		end
-  		return ("{%s}"):format(table.concat(ret, ", "))
-  	end,
+    __index = function(t,k)
+      return keys[k] and t[keys[k].index]
+    end,
+    __tostring = function(t)
+      local ret = {}
+      for k in pairs(keys) do
+        if type(t[k]) == "number" then
+          table.insert(ret, ("%s = %s"):format(k, t[k]))
+        elseif type(t[k]) == "string" then
+          table.insert(ret, ("%s = '%s'"):format(k, t[k]))
+        end
+      end
+      return ("{%s}"):format(table.concat(ret, ", "))
+    end,
   }
   local __mt = setmetatable
   
   local conf = {}
   
   conf.data = {
-  	[1] = __mt({1,100,50,10,10,}, mt),
-  	[2] = __mt({2,80,200,12,8,}, mt),
-  	[3] = __mt({3,80,100,15,5,}, mt),
+    [1] = __mt({1,100,50,10,10,}, mt),
+    [2] = __mt({2,80,200,12,8,}, mt),
+    [3] = __mt({3,80,100,15,5,}, mt),
   }
   
   conf.indexes = {
-  	['id'] = {
-  		['1'] = {1},
-  		['2'] = {2},
-  		['3'] = {3},
-  	},
+    ['id'] = {
+      ['1'] = {1},
+      ['2'] = {2},
+      ['3'] = {3},
+    },
   }
   
   local printable = {
-  	__tostring = function(t)
-  		local ret = {}
-  		for _, v in ipairs(t) do
-  			table.insert(ret, tostring(v))
-  		end
-  		return table.concat(ret, "\n")
-  	end
+    __tostring = function(t)
+      local ret = {}
+      for _, v in ipairs(t) do
+        table.insert(ret, tostring(v))
+      end
+      return table.concat(ret, "\n")
+    end
   }
   
   conf.parseArgs = function(self, ...)
-  	local keys, values = {}, {}
-  	local args = { ... }
-  	for idx,val in ipairs(args) do
-  		if idx % 2 == 1 then
-  			keys[#keys + 1] = val
-  		else
-  			values[#values + 1] = val
-  		end
-  	end
-  	return keys, values
+    local keys, values = {}, {}
+    local args = { ... }
+    for idx,val in ipairs(args) do
+      if idx % 2 == 1 then
+        keys[#keys + 1] = val
+      else
+        values[#values + 1] = val
+      end
+    end
+    return keys, values
   end
   
   conf.getData = function(self, ...)
-  	local ret
-  	if select("#", ...) > 0 then
-  		local keys, values = self:parseArgs(...)
-  		local keyHash = table.concat(keys, '-')
-  		local valueHash = table.concat(values, '-')
-  		local keyMap = self.indexes[keyHash] or {}
-  		local valueMap = keyMap[valueHash] or {}
-  		ret  = {}
-  		for idx,val in ipairs(valueMap) do
-  			ret[#ret + 1] = self.data[val]
-  		end
-  	else
-  		ret = self.data
-  	end
-  	return __mt(ret, printable)
+    local ret
+    if select("#", ...) > 0 then
+      local keys, values = self:parseArgs(...)
+      local keyHash = table.concat(keys, '-')
+      local valueHash = table.concat(values, '-')
+      local keyMap = self.indexes[keyHash] or {}
+      local valueMap = keyMap[valueHash] or {}
+      ret  = {}
+      for idx,val in ipairs(valueMap) do
+        ret[#ret + 1] = self.data[val]
+      end
+    else
+      ret = self.data
+    end
+    return __mt(ret, printable)
   end
   
   return conf
@@ -205,8 +205,8 @@
 本工具依赖 Python 3.6 及以上版本，以及 Pip。确认依赖安装好后，执行以下命令：
 
 ``` shell
-git clone https://github.com/VyronLee/XlsxConvert.git
-cd XlsxConvert
+git clone https://github.com/VyronLee/XlsxConverter.git
+cd XlsxConverter
 pip install -e .
 ```
 
@@ -230,14 +230,14 @@ conf = {                        # header config.
     "brief_row_index":  3,
 }
 ip = "./input/EquipmentConf.xlsx"    # input file path.
-op = "./output"   							 		 # output directory.
-re = ".*c+"                     	   # just filter out cols contains 'c'
+op = "./output"                      # output directory.
+re = ".*c+"                          # just filter out cols contains 'c'
 idx = [["id"], ["id", "quality"]]    # indexer list.
-out_format = "pb" 									 # output format, one of "json", "lua", "pb"
-options = {													 # options, required when out_format is "pb"
+out_format = "pb"                    # output format, one of "json", "lua", "pb"
+options = {                          # options, required when out_format is "pb"
      "generate_codes": True,
      "codes_type": "csharp",         # generate code type, one of "cpp", "csharp", "java", 
-}																		 # "js", "objc", "php", "python" or "ruby".
+}                                    # "js", "objc", "php", "python" or "ruby".
 
 xls_convert.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_format=out_format, options=options)
 ```
@@ -296,8 +296,8 @@ xls_convert.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_for
               var equipmentSheet = LoadAndParseFromFile<EquipmentConf_Properties_Sheet>(EquipmentConf_SheetPath);
               foreach (var record in equipmentSheet.Data)
                   Console.WriteLine(record);
-  						
-            	// 使用两个 Key 查询
+              
+              // 使用两个 Key 查询
               indexes = LoadAndParseFromFile<XlsxRecordIndexes>(EquipmentConf_IndexPath);
               for (var i = 0; i < 4; i++)
               {
@@ -335,7 +335,7 @@ xls_convert.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_for
               return ids.Count > 0 ? ids[0] : -1;
           }
         
-  				// 使用单个 Key 查询索引, 返回所有符合条件的索引
+          // 使用单个 Key 查询索引, 返回所有符合条件的索引
           private static IList<int> GetRecordIndexes<T>(XlsxRecordIndexes indexes, string key, T value)
           {
               if (!indexes.Values.TryGetValue(key, out var values))
