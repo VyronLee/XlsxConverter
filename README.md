@@ -1,6 +1,6 @@
 # XlsxConvert
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](LICENSE)[![HitCount](http://hits.dwyl.io/vyronlee/vBundler.svg)](http://hits.dwyl.io/vyronlee/XlsxConvert)
+[![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](LICENSE) [![HitCount](http://hits.dwyl.io/VyronLee/XlsxConvert.svg)](http://hits.dwyl.io/VyronLee/XlsxConvert)
 
 一个用于把 xls/xlsx 文件转换成 Lua， Json 或 ProtoBuf 格式的工具。
 
