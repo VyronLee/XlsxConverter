@@ -49,6 +49,12 @@ namespace csharp
                 else
                     Console.WriteLine("Not found!");
             }
+
+            Console.WriteLine("Query record with 'quality': 1");
+            var idxes = GetRecordIndexes(indexes, "quality", 1);
+            if (idxes.Count > 0)
+                foreach (var idx in idxes)
+                    Console.WriteLine(equipmentSheet.Data[idx]);
         }
 
         private static T LoadAndParseFromFile<T>(string path) where T: IMessage<T>, new()

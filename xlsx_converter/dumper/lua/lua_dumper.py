@@ -17,15 +17,9 @@ from ..dumper import Dumper
 
 class LuaDumper(Dumper):
 
-    def compose(self, tb_name, keys, contents, indexes):
-        """ compose keys and contents context into lua file format
+    def compose(self, file_path, sheet_name, keys, contents, indexes):
+        file_name = os.path.splitext(os.path.basename(file_path))[0]
 
-        :tb_name: lua file name
-        :keys: keys context
-        :contents: contents context
-        :returns: lua file data string if succeed
-
-        """
         key_content = ""
         for i in range(0, len(keys)):
             key_content = key_content + "\t[\'%s\'] = {index=%d,type=\"%s\",brief=\"%s\"},\n" % (
@@ -45,7 +39,13 @@ class LuaDumper(Dumper):
                 indexes_content = indexes_content + "\t\t[\'%s\'] = {%s},\n" % (idx, ','.join(value_indexes))
             indexes_content = indexes_content + "\t},\n"
 
-        return lua_file_template % (tb_name, key_content, record_content, indexes_content)
+        template = lua_file_template
+        template = template.replace("__FILENAME__", file_name)
+        template = template.replace("__SHEETNAME__", sheet_name)
+        template = template.replace("__SHEET_KEY_SEGMENT__", key_content)
+        template = template.replace("__SHEET_DATA_SEGMENT__", record_content)
+        template = template.replace("__SHEET_INDEX_SEGMENT__", indexes_content)
+        return template
 
     @staticmethod
     def content_to_table_string(content):
@@ -69,7 +69,7 @@ class LuaDumper(Dumper):
         return table
 
     def dump(self, file_path, sheet_name, output_dir, keys, contents, indexes, options):
-        data = self.compose(os.path.basename(output_dir), keys, contents, indexes)
+        data = self.compose(file_path, sheet_name, keys, contents, indexes)
         if data is None:
             return False
 

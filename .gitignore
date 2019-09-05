@@ -42,3 +42,5 @@ pip-delete-this-directory.txt
 .idea
 temp_proto
 temp_py_proto
+example/usage/protobuf/csharp/csharp/bin
+example/usage/protobuf/csharp/csharp/obj
