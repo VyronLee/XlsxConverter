@@ -1,4 +1,4 @@
-# XlsxConvert
+# XlsxConverter
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](LICENSE) [![HitCount](http://hits.dwyl.io/VyronLee/XlsxConvert.svg)](http://hits.dwyl.io/VyronLee/XlsxConvert)
 
@@ -9,7 +9,7 @@
 目录
 =================
 
-   * [XlsxConvert](#xlsxconvert)
+   * [XlsxConverter](#xlsxconverter)
    * [特性](#特性)
    * [预览](#预览)
    * [安装](#安装)
@@ -239,7 +239,7 @@ options = {                          # options, required when out_format is "pb"
      "codes_type": "csharp",         # generate code type, one of "cpp", "csharp", "java", 
 }                                    # "js", "objc", "php", "python" or "ruby".
 
-xls_convert.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_format=out_format, options=options)
+xls_converter.convert(conf=conf, ip=ip, op=op, filter_re=re, indexers=idx, out_format=out_format, options=options)
 ```
 
 ## 配置加载以及使用
